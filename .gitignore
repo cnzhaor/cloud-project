@@ -1,0 +1,5 @@
+/.idea/
+/logs/
+/eureka-server/target/
+/gateway-service/target/
+/user-service/target/
