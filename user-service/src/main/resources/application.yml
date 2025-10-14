@@ -1,8 +1,13 @@
 spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: user-service
+  cloud:
+    config:
+      profile: prod
+
   datasource:
-    url: jdbc:mysql://localhost:3306/sdf?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
-    username: root
-    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
