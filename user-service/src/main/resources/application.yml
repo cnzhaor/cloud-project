@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: user-service
   datasource:
     url: jdbc:mysql://localhost:3306/sdf?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
     username: root
