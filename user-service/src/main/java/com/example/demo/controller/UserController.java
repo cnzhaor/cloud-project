@@ -3,7 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.common.Result;
 import com.example.demo.entity.User;
+import com.example.demo.feign.OrderClient;
 import com.example.demo.service.UserService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,5 +81,19 @@ public class UserController {
     public String deleteAllUsers() {
         userService.deleteAll();
         return "Deleted all users";
+    }
+
+    @Autowired
+    private OrderClient orderClient;
+
+    @GetMapping("/{id}/order")
+    @CircuitBreaker(name = "orderService", fallbackMethod = "orderFallback")
+    @RateLimiter(name = "orderLimiter", fallbackMethod = "orderFallback")
+    public String getUserOrder(@PathVariable Long id) {
+        return orderClient.getOrderById(id);
+    }
+
+    public String orderFallback(Long id, Throwable t) {
+        return "请求失败或过多，请稍后再试：" + t.getMessage();
     }
 }
