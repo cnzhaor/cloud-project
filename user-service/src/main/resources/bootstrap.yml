@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: user-service
+  profiles:
+    active: prod
+  cloud:
+    config:
+      uri: http://localhost:8888     # Config Server 地址
+      fail-fast: true                # 启动时配置拉取失败则终止
